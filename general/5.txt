@@ -1,0 +1,1 @@
+kubectl expose pod messaging --type=ClusterIP --name=messaging-service --port=6379 --target-port=6379

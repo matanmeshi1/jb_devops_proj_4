@@ -1,0 +1,2 @@
+kubectl create ns finance-matanmeshi
+kubectl run temp-bus --image=redis:alpine --namespace=finance-matanmeshi --restart=Never 

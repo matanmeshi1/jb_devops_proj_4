@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-storage-matanmeshi
+  namespace: default
+  labels:
+    app: redis-storage-matanmeshi
+spec:
+  containers:
+    - name: redis-storage-matanmeshi
+      image: redis:alpine
+      resources:
+        limits:
+          cpu: 200m
+          memory: 100Mi
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      ports:
+        - containerPort: 6378
+          name: http
+      volumeMounts:
+        - name: my-vol
+          mountPath: /data/redis
+  volumes:
+    - name: my-vol
+      emptyDir:
+        sizeLimit: 30Mi
+  restartPolicy: Always
+---
+
