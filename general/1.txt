@@ -1,1 +1,1 @@
-k run messaging --image=redis:alpine
+k run nginx-pod --image=nginx:alpine
