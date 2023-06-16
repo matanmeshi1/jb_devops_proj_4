@@ -1,35 +1,35 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: v1
+kind: Pod
 metadata:
-  name: MYAPP
+  name: "MYAPP"
   namespace: default
   labels:
-    app: MYAPP
+    app: "MYAPP"
 spec:
-  template:
-    metadata:
-      name: MYAPP
-      labels:
-        app: MYAPP
-    spec:
-      containers:
-        - name: MYAPP
-          image: python:3.7.6-alpine3.10
-          command:
-            [
-              "sh",
-              "-c",
-              "python3 manage.py makemigrations && python3 manage.py migrate",
-            ]
-          env:
-            - name: ENV_NAME
-              value: ENV_VALUE
-          volumeMounts:
-            - name: localtime
-              mountPath: /etc/localtime
-      volumes:
-        - name: localtime
-          hostPath:
-            path: /usr/share/zoneinfo/Asia/Shanghai
-      restartPolicy: OnFailure
-      dnsPolicy: ClusterFirst
+  containers:
+    - name: MYAPP
+      image: "debian-slim:latest"
+      resources:
+        limits:
+          cpu: 200m
+          memory: 500Mi
+        requests:
+          cpu: 100m
+          memory: 200Mi
+      env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: MYAPP
+              key: DB_HOST
+      ports:
+        - containerPort: 80
+          name: http
+      volumeMounts:
+        - name: config-vol
+          mountPath: /etc/config
+  volumes:
+    - name: localtime
+      projected:
+        path: /usr/share/zoneinfo/Asia/Shanghai
+  restartPolicy: Always
