@@ -1,1 +1,3 @@
+3. Create a namespace named apx-x998-yourname
+
 kubectl create ns apx-x9980-matanmeshi 
