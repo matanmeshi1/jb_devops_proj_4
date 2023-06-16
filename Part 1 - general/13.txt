@@ -1,0 +1,14 @@
+13. Create a new deployment called nginx-deploy, with image nginx:1.16 and 1 replica.
+Record the version. Next upgrade the deployment to version 1.17 using rolling update.
+Make sure that the version upgrade is recorded in the resource annotation.
+    a. Deployment : nginx-deploy. Image: nginx:1.16
+    b. Image: nginx:1.16
+    c. Task: Upgrade the version of the deployment to 1:17
+    d. Task: Record the changes for the image upgrade
+
+
+kubectl create deployment nginx-deploy --image=nginx:1.16 --replicas=1 --dry-run=client --output=yaml > nginx-deploy.yaml
+kubectl apply --filename=nginx-deploy.yaml --record
+kubectl rollout history deployment
+kubectl set image deployment/nginx-deploy nginx=nginx:1.17 --record
+kubectl get deploy nginx-deploy -o yaml
